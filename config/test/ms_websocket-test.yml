@@ -1,0 +1,59 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: ms_config
+      name: ms_websocket
+      profile: test
+  profiles:
+    active: test
+  application:
+    name: ms_websocket
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      force-request: true
+      enabled: true
+      force-response: true
+  messages:
+    encoding: UTF-8
+  datasource:
+    sql-script-encoding: UTF-8
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:41089/eureka
+    eureka-server-connect-timeout-seconds: 5
+    eureka-server-read-timeout-seconds: 8
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    prefer-ip-address: true
+    metadata-map:
+      NameDisplayForZuul: 5pS25YWl6K6w5b2VKFVT5pS25YWlKQ==
+server:
+  port: 41091
+  tomcat:
+    uri-encoding: UTF-8
+  undertow:
+    direct-buffers: true
+    buffer-size: 2048
+    io-threads: 2
+    worker-threads: 16
+    max-http-post-size: 11534336
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false
+    id: close
+    path: /contract/system/manage/close
+debug: false

@@ -1,0 +1,104 @@
+spring:
+  application:
+    name: ms_zuul
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: ms_config
+      name: ms_zuul
+      profile: dev
+    loadbalancer:
+      retry:
+        enabled: false
+  profiles:
+    active: dev
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      force-request: true
+      enabled: true
+      force-response: true
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 21MB
+eureka:
+#  registryFetchIntervalSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:41089/eureka
+  instance:
+    prefer-ip-address: true
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000
+server:
+  session:
+    timeout: 120000
+  tomcat:
+    uri-encoding: UTF-8
+    compression: on
+    min-spare-threads: 64
+  context-path: /
+  undertow:
+    io-threads: 2
+    worker-threads: 16
+    direct-buffers: true
+    max-http-post-size: 22020096
+zuul:
+  strip-prefix: false
+  host:
+    max-total-connections: 500
+    connect-timeout-millis: 120000
+    socket-timeout-millis: 120000
+serviceIdsNotDisplayForIndex: ms_config;ms_zuul;ms_eurekaserver
+service:
+  display:
+    Ignore:
+      Ids: ms_config;ms_zuul;ms_eureka
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+#  ServerListRefreshInterval: 2000
+  eureka:
+    enabled: true
+  OkToRetryOnAllOperations: false
+  client:
+    name: client
+framework:
+  token:
+    exchange:
+      url: http://localhost:41088/zuul_token/exchange/
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: true
+    path: /stopzuulservice
+security:
+  basic:
+    enabled: true
+    path: /stopzuulservice
+  user:
+    name: mszull
+    password: ms.zuul.password
+management:
+  security:
+    enabled: false
+ZuulIgnoreUrls: /zuul_|
+#logging:
+#  config: classpath:logback-spring-dev.xml
